@@ -5,7 +5,7 @@ date: "1/11/2019"
 output: 
   html_document:
     highlight: textmate
-    theme: yeti
+    theme: cosmo
     toc: true
     depth: 3
     toc_float: true

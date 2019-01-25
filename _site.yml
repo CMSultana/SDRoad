@@ -1,0 +1,12 @@
+name: "cars"
+output_dir: "docs"
+navbar:
+  title: "Cars"
+  left:
+  - text: "Home"
+    href: index.html
+  - text: "test"
+    href: sdMaps_basicSDroads_20190111.html
+output:
+html_document:
+theme: cosmo
