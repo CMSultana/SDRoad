@@ -3,6 +3,7 @@ title: "index"
 author: "Camille Sultana"
 date: "1/25/2019"
 output: html_document
+layout: default
 ---
 
 ```{r setup, include=FALSE}
