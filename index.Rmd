@@ -3,7 +3,6 @@ title: "index"
 author: "Camille Sultana"
 date: "1/25/2019"
 output: html_document
-theme: jekyll-theme-cayman
 ---
 
 ```{r setup, include=FALSE}
