@@ -9,4 +9,4 @@ navbar:
     href: sdMaps_basicSDroads_20190111.html
 output:
 html_document:
-theme: cosmo
+theme: jekyll-theme-cayman
