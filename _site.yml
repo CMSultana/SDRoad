@@ -10,3 +10,4 @@ navbar:
 output:
 html_document:
 theme: jekyll-theme-cayman
+layout: default
