@@ -29,6 +29,32 @@ Please note statements regarding coordinate reference systems (CRS) and working 
 Load packages
 -------------
 
+``` r
+library(rprojroot)
+library(broom)
+library(rgdal)
+library(sf)
+library(rgeos)
+library(tictoc)
+library(maps)
+library(maptools)
+library(ggmap)
+library(tidyverse)
+
+#set theme for plots
+theme_set(theme_minimal())
+#set global chunk options
+knitr::opts_chunk$set(collapse = TRUE, fig.show = "asis", results = "hide", cache = TRUE,
+                      message = FALSE, warning = FALSE)
+#get root project directory
+rootDir <- find_root(is_rstudio_project)
+
+#you will need to create get your own API key from google cloud servieces
+#and save the string to a text file in /ignoreFiles/googleAPIkey.txt
+fileName = paste0(rootDir, "/ignoreFiles/", "googleAPIkey.txt")
+register_google(key = read_file(fileName))
+```
+
 Read in and format map data
 ---------------------------
 

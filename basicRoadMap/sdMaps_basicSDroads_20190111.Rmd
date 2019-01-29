@@ -24,7 +24,7 @@ __Learning goals__  -- making maps in ggplot -- r mapping tools/packages (rgdal,
 Please note statements regarding coordinate reference systems (CRS) and working with map data are based on a brief scouring of web resources.  Find a more reputable source to learn the ins and outs of CRS! Don't take my word for it.
 
 ##Load packages
-```{r setup, include=FALSE}
+```{r setup, warning = FALSE, message = FALSE}
 library(rprojroot)
 library(broom)
 library(rgdal)
