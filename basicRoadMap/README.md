@@ -4,6 +4,7 @@ Camille Sultana
 1/11/2019
 
 -   [Project description](#project-description)
+-   [Load packages](#load-packages)
 -   [Read in and format map data](#read-in-and-format-map-data)
     -   [County boundary](#county-boundary)
     -   [Map labels](#map-labels)
@@ -24,6 +25,9 @@ Project description
 **Learning goals** -- making maps in ggplot -- r mapping tools/packages (rgdal, maptools, maps, etc) -- CRS
 
 Please note statements regarding coordinate reference systems (CRS) and working with map data are based on a brief scouring of web resources. Find a more reputable source to learn the ins and outs of CRS! Don't take my word for it.
+
+Load packages
+-------------
 
 Read in and format map data
 ---------------------------
@@ -82,7 +86,7 @@ zoom2 <- coord_equal(ratio = 1, xlim = c(6245000, 6270000), ylim = c(1850000, 18
 c + p
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/county%20boundary%20quickmap-1.png)
+![](README_files/figure-markdown_github/county%20boundary%20quickmap-1.png)
 
 The Pacific and SD county map look well aligned. The Pacific map coastline goes far above and below the extent of SD county which will make plots look nice later.
 
@@ -93,7 +97,7 @@ c + p + labs(title = "County & Pacific") + zoom
 c + labs(title = "County only") + zoom
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/map%20zoom-1.png)![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/map%20zoom-2.png)
+![](README_files/figure-markdown_github/map%20zoom-1.png)![](README_files/figure-markdown_github/map%20zoom-2.png)
 
 The Pacific map shows SD coastal boundaries with high resolution. The SD county map lacks most of these details.
 
@@ -102,7 +106,7 @@ The Pacific map shows SD coastal boundaries with high resolution. The SD county 
 c + p + zoom2
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/map%20zoom2-1.png)
+![](README_files/figure-markdown_github/map%20zoom2-1.png)
 
 In this quickly made plot, island shapes detailed by the Pacific map are filled the same color as the ocean. Will need to identify what data corresponds to the islands so they can match the county land in color.
 
@@ -121,7 +125,7 @@ pacLabel <- pacificmap %>%
 c + p + zoom2 + geom_text(data = pacLabel, aes(label = piece), color = "blue", size = 2.5)
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/find%20islands-1.png)
+![](README_files/figure-markdown_github/find%20islands-1.png)
 
 ``` r
 
@@ -137,7 +141,7 @@ i <- geom_polygon(data = pacificmap, color = "yellow", aes(fill = isIsland))
 c + i + zoom2 + scale_fill_manual(values = c("TRUE" = "grey", "FALSE" = "red"))
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/find%20islands-2.png)
+![](README_files/figure-markdown_github/find%20islands-2.png)
 
 ``` r
 
@@ -145,7 +149,7 @@ c + i + zoom2 + scale_fill_manual(values = c("TRUE" = "grey", "FALSE" = "red"))
 c + i + zoom + scale_fill_manual(values = c("TRUE" = "grey", "FALSE" = "red"))
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/find%20islands-3.png)
+![](README_files/figure-markdown_github/find%20islands-3.png)
 
 ``` r
 #want to get rid of west coast county line so don't have to worry about
@@ -169,13 +173,13 @@ tmpMap <- ggplot(data = pacificmap, aes(x = long, y = lat, group = group)) +
 tmpMap
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/us%20mexico%20border-1.png)
+![](README_files/figure-markdown_github/us%20mexico%20border-1.png)
 
 ``` r
 tmpMap + zoom
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/us%20mexico%20border-2.png)
+![](README_files/figure-markdown_github/us%20mexico%20border-2.png)
 
 Islands are now colored properly, and SD area map shows only southern boundary.
 
@@ -300,7 +304,7 @@ cityNTmp <- cityNTmp %>%
 ggmap(sanGoogle) + geom_path(data = pacTmp, aes(long, lat, group = group), color = "red")
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/city%20labels%20google%20map-1.png)
+![](README_files/figure-markdown_github/city%20labels%20google%20map-1.png)
 
 ``` r
 
@@ -308,7 +312,7 @@ ggmap(sanGoogle) + geom_path(data = pacTmp, aes(long, lat, group = group), color
 ggmap(sanGoogle) + geom_text(data = cityNTmp, aes(label = CODE, x = long, y = lat, color = factor(label))) + scale_color_manual(values = c("1" = "black", "2" = "green", "3" = "blue", "4" = "red", "5" = "orange"))
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/city%20labels%20google%20map-2.png)
+![](README_files/figure-markdown_github/city%20labels%20google%20map-2.png)
 
 The matching coastal boundary from the SANDAG database confirms that the SANDAG CRS conversion to the google maps definition (WGS84) was correct. The city label locations from SANDAG don't have good overlap with the location on google maps, including labels that have only one location in the database (see CB, Carlsbad; CO, Coronado Island). Rather than using SANDAG data in the labels, it would likely be more accurate to use geocode data pulled from google.
 
@@ -323,6 +327,7 @@ cityNTmp <- cityNTmp %>%
 mutate(geoNAME = paste(NAME, "CA", sep = ", "))
 
 #get geolocation of cities from google and concatenate back to dataframe with labels
+#note need to get google cloud account set up to do this
 geoLOC = geocode(cityNTmp$geoNAME)
 cityNTmp <- data.frame(cityNTmp, geoLOC)
 
@@ -330,7 +335,7 @@ cityNTmp <- data.frame(cityNTmp, geoLOC)
 ggmap(sanGoogle) + geom_text(data = cityNTmp, aes(label = CODE, x = lon, y = lat))
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/cityNames%20geocode-1.png)
+![](README_files/figure-markdown_github/cityNames%20geocode-1.png)
 
 The city labels now match up with labels provided by google maps, and are in sensical locations (eg Oceanside OC is on the coast, Coronado Island CO is on the island).
 
@@ -404,13 +409,13 @@ sanZoomGoogle <- get_googlemap(center = c(lon = -117.125104, lat = 32.739566), z
 ggmap(sanZoomGoogle) + geom_text(data = neighNamesSp, aes(label = NAME, x = lon, y = lat.1), size = 2, color = "red")
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/neighborhood%20geocode-1.png)
+![](README_files/figure-markdown_github/neighborhood%20geocode-1.png)
 
 ``` r
 ggmap(sanGoogle) + geom_text(data = neighNamesSp, aes(label = NAME, x = lon, y = lat.1), size = 2, color = "red")
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/neighborhood%20geocode-2.png)
+![](README_files/figure-markdown_github/neighborhood%20geocode-2.png)
 
 Obviously not all these labels can be plotted at once. However, a quick scan indicates the labels are in their proper place.
 
@@ -510,7 +515,7 @@ ggplot(data = sdRoadMap[1:300000,]) +
   geom_path(aes(x = long, y = lat, group = slotID), color = "red", size = 0.2)
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/read%20in%20saved%20sdroad%20data-1.png)
+![](README_files/figure-markdown_github/read%20in%20saved%20sdroad%20data-1.png)
 
 Cool looks like a bunch of road bits.
 
@@ -534,7 +539,7 @@ ggplot(data = sdMini) +
   labs(title = "all road segments")
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test%20plot%20roads-1.png)
+![](README_files/figure-markdown_github/test%20plot%20roads-1.png)
 
 Plotting all road types at once for a small SD area, shows that giving equal line color and thickness creates a very visually dense and overwhelming map. We need to better understand what each road type (SEGCLASS) contributes to the map to be able to choose more appealing colors and weights.
 
@@ -562,7 +567,7 @@ plotClass <- function(data, class) {
 map(unique(sdMini$SEGCLASS), plotClass, data = sdMini)
 ```
 
-<img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-1.png" width="40%" /><img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-2.png" width="40%" /><img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-3.png" width="40%" /><img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-4.png" width="40%" /><img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-5.png" width="40%" /><img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-6.png" width="40%" /><img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-7.png" width="40%" /><img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-8.png" width="40%" /><img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-9.png" width="40%" /><img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-10.png" width="40%" /><img src="/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/test plot roads 2-11.png" width="40%" />
+<img src="README_files/figure-markdown_github/test plot roads 2-1.png" width="40%" /><img src="README_files/figure-markdown_github/test plot roads 2-2.png" width="40%" /><img src="README_files/figure-markdown_github/test plot roads 2-3.png" width="40%" /><img src="README_files/figure-markdown_github/test plot roads 2-4.png" width="40%" /><img src="README_files/figure-markdown_github/test plot roads 2-5.png" width="40%" /><img src="README_files/figure-markdown_github/test plot roads 2-6.png" width="40%" /><img src="README_files/figure-markdown_github/test plot roads 2-7.png" width="40%" /><img src="README_files/figure-markdown_github/test plot roads 2-8.png" width="40%" /><img src="README_files/figure-markdown_github/test plot roads 2-9.png" width="40%" /><img src="README_files/figure-markdown_github/test plot roads 2-10.png" width="40%" /><img src="README_files/figure-markdown_github/test plot roads 2-11.png" width="40%" />
 
 It looks like roads can be divided into freeways, major roads/highways, and local streets. Freeways have three categories of SEGCLASS: freeway, freeway on/off ramp, and freeway transition ramp. Freeways should be emphasized in the map, but equally weighting all three freeway SEGCLASS's may become too cluttered.
 
@@ -585,7 +590,7 @@ sdMini %>%
   coord_equal()
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/freeway%20plot-1.png)
+![](README_files/figure-markdown_github/freeway%20plot-1.png)
 
 As the data is currently organized, ramps plot on top of the actual freeways. I originally thought that the display order for geom\_path was controlled by the factor level order of SEGCLASS if color was set to SEGCLASS in the aesthetics. However, after testing it was obvious that this is not the case. The plotting order for geom\_path is actually controlled by the group aesthetic (slotID for this map). SlotID needs to be adjusted so that road segments to be plotted last have the highest slotID.
 
@@ -622,7 +627,7 @@ sdMini %>%
   scale_size_manual(values = c("1" = 1, "8" = 0.4, "9" = 0.4, "4" = 0.1, "3" = 0.4))
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/reorder%20slotID-1.png)
+![](README_files/figure-markdown_github/reorder%20slotID-1.png)
 
 By reordering slotID, freeways now appear on top of all other road segments. (Freeways &gt; ramps &gt; major roads &gt; minor roads). This may not matter if decide to keep roads all one color, but better to be prepared.
 
@@ -655,7 +660,7 @@ sdMini %>%
   scale_size_manual(values = c("l" = 0.1, "m" = 0.4, "r" = 0.1, "f" = 0.5), guide = FALSE)
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/road%20map%20theme-1.png)
+![](README_files/figure-markdown_github/road%20map%20theme-1.png)
 
 Unified SD area map
 -------------------
@@ -688,7 +693,7 @@ mapBase <- ggplot(data = pacificmap, aes(x = long, y = lat, group = group)) +
 mapBase
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/map%20base%20theme-1.png)
+![](README_files/figure-markdown_github/map%20base%20theme-1.png)
 
 ### Add roads
 
@@ -706,7 +711,7 @@ roadBase <- mapBase +
 roadBase
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/add%20roads-1.png)
+![](README_files/figure-markdown_github/add%20roads-1.png)
 
 ### Add labels
 
@@ -727,7 +732,7 @@ geom_text(data = cityNTmp,
   scale_size_manual(values = c("TRUE" = 3, "FALSE" = 1.5), guide = FALSE)
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/add%20labels-1.png)
+![](README_files/figure-markdown_github/add%20labels-1.png)
 
 ``` r
 
@@ -752,6 +757,6 @@ roadBase +
                     guide = FALSE)
 ```
 
-![](/Users/csultana/Documents/codeProjects/SDRoads/basicRoadMap/README_files/figure-markdown_github/full%20map-1.png)
+![](README_files/figure-markdown_github/full%20map-1.png)
 
 A decent-ish looking SD area plot! This will be the basis for a project to show the construciton of SD area roads over the past 30 years.

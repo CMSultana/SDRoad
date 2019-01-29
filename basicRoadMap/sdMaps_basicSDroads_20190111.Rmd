@@ -9,7 +9,7 @@ output:
 knit: (function(input_file, encoding) {
   rmarkdown::render(input_file,
  encoding=encoding,
- output_file=file.path(dirname(input_file), 'README.md'))})
+ output_file='README.md')})
 ---
 
 ##Project description
@@ -23,6 +23,7 @@ __Learning goals__  -- making maps in ggplot -- r mapping tools/packages (rgdal,
     
 Please note statements regarding coordinate reference systems (CRS) and working with map data are based on a brief scouring of web resources.  Find a more reputable source to learn the ins and outs of CRS! Don't take my word for it.
 
+##Load packages
 ```{r setup, include=FALSE}
 library(rprojroot)
 library(broom)
@@ -34,7 +35,7 @@ library(maps)
 library(maptools)
 library(ggmap)
 library(tidyverse)
-register_google(key = "AIzaSyDdTxufayrE3YW73XHpcyoY4Wb5U0RC91k")
+
 #set theme for plots
 theme_set(theme_minimal())
 #set global chunk options
@@ -42,7 +43,13 @@ knitr::opts_chunk$set(collapse = TRUE, fig.show = "asis", results = "hide", cach
                       message = FALSE, warning = FALSE)
 #get root project directory
 rootDir <- find_root(is_rstudio_project)
+
+#you will need to create get your own API key from google cloud servieces
+#and save the string to a text file in /ignoreFiles/googleAPIkey.txt
+fileName = paste0(rootDir, "/ignoreFiles/", "googleAPIkey.txt")
+register_google(key = read_file(fileName))
 ```
+
 ##Read in and format map data
 Unless otherwise noted map data was acquired as shapefiles from the SANDAG GIS Data Warehose (http://rdw.sandag.org). Shapefiles are imported using the rgdal::readOGR function, and then converted into data frames with tidy::broom to enable plotting using the ggplot2 package.  
     

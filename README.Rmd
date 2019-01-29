@@ -1,0 +1,21 @@
+---
+title: "Mapping San Diego Roads with R"
+author: "Camille Sultana"
+date: "1/25/2019"
+output: github_document
+layout: default
+knit: (function(input_file, encoding) {
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file='README.md')})
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Building maps of San Diego area roads utilizing tidyverse packages. Figures are built using ggplot. Geospatial data is from the SANDAG GIS Data Warehose (http://rdw.sandag.org) and some supplemental geolocations pulled from google with the geocoding API. Work flow is presented using rmarkdown documentation.    
+
+##Subprojects
+###[Building a basic San Diego area road map](https://github.com/CMSultana/SDRoad/tree/master/basicRoadMap)
+###Coming soon: SD Road Construction 1990-2017  
